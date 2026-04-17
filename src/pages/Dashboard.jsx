@@ -61,7 +61,7 @@ export default function Dashboard() {
     <div className="dashboard-page">
       <div className="page-header">
         <div>
-          <h1>📊 Bismillahi rohmanir rohim</h1>
+          <h1>📊 Bismillahir rohmanir rohim</h1>
           <p>Umumiy ko'rsatkichlar va statistika</p>
         </div>
       </div>
