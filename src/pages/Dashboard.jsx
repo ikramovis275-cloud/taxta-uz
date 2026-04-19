@@ -32,37 +32,37 @@ export default function Dashboard() {
 
   const updateRate = async () => {
     const rate = parseFloat(newRate);
-    if (!rate || rate <= 0) return alert("To'g'ri kurs kiriting!");
+    if (!rate || rate <= 0) return alert("Тўғри курс киритинг!");
     try {
       await api.put('/settings/usd-rate', { rate });
       setUsdRate(rate);
       localStorage.setItem('usd_rate', String(rate));
-      alert('✅ Dollar kursi yangilandi!');
+      alert('✅ Доллар курси янгиланди!');
     } catch {
-      alert('Xatolik yuz berdi');
+      alert('Хатолик юз берди');
     }
   };
 
   if (loading) return (
     <div className="page-loading">
       <div className="spinner"></div>
-      <p>Ma'lumotlar yuklanmoqda...</p>
+      <p>Маълумотлар юкланмоқда...</p>
     </div>
   );
 
   const statCards = [
-    { label: "Jami mahsulotlar", value: stats?.totalProducts || 0, icon: '📦', color: 'blue', suffix: 'ta' },
-    { label: "Jami sotuvlar", value: stats?.totalSales || 0, icon: '🛒', color: 'green', suffix: 'ta' },
-    { label: "Ombor hajmi", value: (stats?.totalVolume || 0).toFixed(2), icon: '📐', color: 'purple', suffix: 'm³' },
-    { label: "Jami daromad", value: Math.round(stats?.totalRevenue || 0).toLocaleString(), icon: '💰', color: 'orange', suffix: "so'm" },
+    { label: "Жами маҳсулотлар", value: stats?.totalProducts || 0, icon: '📦', color: 'blue', suffix: 'та' },
+    { label: "Жами сотувлар", value: stats?.totalSales || 0, icon: '🛒', color: 'green', suffix: 'та' },
+    { label: "Омбор ҳажми", value: (stats?.totalVolume || 0).toFixed(2), icon: '📐', color: 'purple', suffix: ' м³' },
+    { label: "Жами даромад", value: Math.round(stats?.totalRevenue || 0).toLocaleString(), icon: '💰', color: 'orange', suffix: " сўм" },
   ];
 
   return (
     <div className="dashboard-page">
       <div className="page-header">
         <div>
-          <h1>📊 Bismillahir rohmanir rohim</h1>
-          <p>Umumiy ko'rsatkichlar va statistika</p>
+          <h1>📊 Бисмиллаҳир роҳманир роҳим</h1>
+          <p>Умумий кўрсаткичлар ва статистика</p>
         </div>
       </div>
 
@@ -71,8 +71,8 @@ export default function Dashboard() {
         <div className="rate-info">
           <span className="rate-flag">💵</span>
           <div>
-            <span className="rate-label">Joriy dollar kursi</span>
-            <span className="rate-value">{usdRate.toLocaleString()} so'm</span>
+            <span className="rate-label">Жорий доллар курси</span>
+            <span className="rate-value">{usdRate.toLocaleString()} сўм</span>
           </div>
         </div>
         <div className="rate-update">
@@ -80,9 +80,9 @@ export default function Dashboard() {
             type="number"
             value={newRate}
             onChange={e => setNewRate(e.target.value)}
-            placeholder="Yangi kurs"
+            placeholder="Янги курс"
           />
-          <button onClick={updateRate} className="btn-update-rate">Yangilash</button>
+          <button onClick={updateRate} className="btn-update-rate">Янгилаш</button>
         </div>
       </div>
 
@@ -103,23 +103,23 @@ export default function Dashboard() {
       {/* Daily Sales Table */}
       {stats?.dailySales?.length > 0 && (
         <div className="daily-sales-section">
-          <h2>📅 Kunlik sotuvlar</h2>
+          <h2>📅 Кунлик сотувлар</h2>
           <div className="table-wrapper">
             <table className="data-table">
               <thead>
                 <tr>
-                  <th>Sana</th>
-                  <th>Sotuvlar soni</th>
-                  <th>Daromad (so'm)</th>
-                  <th>Daromad ($)</th>
+                  <th>Сана</th>
+                  <th>Сотувлар сони</th>
+                  <th>Даромад (сўм)</th>
+                  <th>Даромад ($)</th>
                 </tr>
               </thead>
               <tbody>
                 {stats.dailySales.map((day, i) => (
                   <tr key={i}>
                     <td><span className="date-badge">{day.date}</span></td>
-                    <td>{day.count} ta</td>
-                    <td className="amount-cell">{Math.round(day.total).toLocaleString()} so'm</td>
+                    <td>{day.count} та</td>
+                    <td className="amount-cell">{Math.round(day.total).toLocaleString()} сўм</td>
                     <td className="amount-cell">${(day.total / usdRate).toFixed(2)}</td>
                   </tr>
                 ))}

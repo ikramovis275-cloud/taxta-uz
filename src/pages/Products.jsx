@@ -3,8 +3,8 @@ import api from '../api/axios';
 import '../styles/Products.css';
 
 function parseDimensions(dimStr) {
-  // Har ikkala belgini ham qabul qilish: '*' va 'x'
-  const normalized = dimStr.replace(/x/gi, '*');
+  // Vergulni nuqtaga almashtirish (8,8 -> 8.8) va x ni * ga almashtirish
+  const normalized = dimStr.replace(/,/g, '.').replace(/x/gi, '*');
   const parts = normalized.split('*').map(s => parseFloat(s.trim()));
   if (parts.length !== 3 || parts.some(isNaN)) return null;
   const [l, w, h] = parts;
@@ -51,7 +51,7 @@ export default function Products() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const pieceVolume = parseDimensions(form.dimensions);
-    if (!pieceVolume) return alert("Hajmni to'g'ri kiriting: masalan 300*15*3");
+    if (!pieceVolume) return alert("Ҳажмни тўғри киритинг: масалан 300*15*3");
     const qty = parseFloat(form.quantity);
     const payload = {
       code: form.code, name: form.name, dimensions: form.dimensions,
@@ -73,7 +73,7 @@ export default function Products() {
       setShowModal(false);
       fetchAll();
     } catch (err) {
-      alert(err.response?.data?.error || 'Xatolik yuz berdi');
+      alert(err.response?.data?.error || 'Хатолик юз берди');
     }
   };
 
@@ -83,13 +83,26 @@ export default function Products() {
       quantity: p.quantity, unit: p.unit,
       cost_price_dollar: p.cost_price_dollar,
       sale_price_dollar: p.sale_price_dollar,
+      addQty: '' // Yangi qo'shiladigan miqdor uchun
     });
     setEditingId(p.id);
+    setInitialQty(p.quantity); // Dastlabki miqdorni saqlab qolamiz
     setShowModal(true);
   };
 
+  const [initialQty, setInitialQty] = useState(0);
+
+  const handleAddQtyChange = (e) => {
+    const addValue = parseFloat(e.target.value) || 0;
+    setForm({
+      ...form,
+      addQty: e.target.value,
+      quantity: initialQty + addValue
+    });
+  };
+
   const handleDelete = async (id) => {
-    if (!confirm("Mahsulotni o'chirishga ishonchingiz komilmi?")) return;
+    if (!confirm("Маҳсулотни ўчиришга ишончингиз комилми?")) return;
     await api.delete(`/products/${id}`);
     fetchAll();
   };
@@ -104,25 +117,25 @@ export default function Products() {
   const totalVolume = products.reduce((s, p) => s + (p.volume || 0), 0);
   const totalQty = products.reduce((s, p) => s + (p.quantity || 0), 0);
 
-  if (loading) return <div className="page-loading"><div className="spinner"></div><p>Yuklanmoqda...</p></div>;
+  if (loading) return <div className="page-loading"><div className="spinner"></div><p>Юкланмоқда...</p></div>;
 
   return (
     <div className="products-page">
       <div className="page-header">
         <div>
-          <h1>📦 Mahsulotlar</h1>
-          <p>Ombordagi barcha yog'och mahsulotlar</p>
+          <h1>📦 Маҳсулотлар</h1>
+          <p>Омбордаги барча ёғоч маҳсулотлар</p>
         </div>
-        <button className="btn-primary" onClick={() => { setForm(emptyForm); setEditingId(null); setShowModal(true); }}>
-          + Yangi mahsulot
+        <button className="btn-primary" onClick={() => { setForm({ ...emptyForm, addQty: '' }); setEditingId(null); setInitialQty(0); setShowModal(true); }}>
+          + Янги маҳсулот
         </button>
       </div>
 
       {/* Summary */}
       <div className="products-summary">
-        <div className="summary-chip">📦 Jami: <strong>{products.length} xil</strong></div>
-        <div className="summary-chip">🔢 Miqdor: <strong>{Math.round(totalQty)} dona</strong></div>
-        <div className="summary-chip">📐 Hajm: <strong>{totalVolume.toFixed(3)} m³</strong></div>
+        <div className="summary-chip">📦 Жами: <strong>{products.length} хил</strong></div>
+        <div className="summary-chip">🔢 Миқдор: <strong>{Math.round(totalQty)} дона</strong></div>
+        <div className="summary-chip">📐 Ҳажм: <strong>{totalVolume.toFixed(3)} м³</strong></div>
       </div>
 
       {/* Filters */}
@@ -131,7 +144,7 @@ export default function Products() {
           <span>🔍</span>
           <input
             type="text"
-            placeholder="Kod yoki nomi bo'yicha qidirish..."
+            placeholder="Код ёки номи бўйича қидириш..."
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
@@ -143,7 +156,7 @@ export default function Products() {
               className={`filter-tab ${unitFilter === u ? 'active' : ''}`}
               onClick={() => setUnitFilter(u)}
             >
-              {u === 'all' ? 'Barchasi' : u === 'dona' ? 'Dona' : 'Pachka'}
+              {u === 'all' ? 'Барчаси' : u === 'dona' ? 'Дона' : 'Пачка'}
             </button>
           ))}
         </div>
@@ -154,22 +167,22 @@ export default function Products() {
         <table className="data-table">
           <thead>
             <tr>
-              <th>Kod</th>
-              <th>Nomi</th>
-              <th>O'lchami</th>
-              <th>Birlik hajm</th>
-              <th>Jami hajm (m³)</th>
-              <th>Miqdor</th>
-              <th>Tannarxi</th>
-              <th>Sotuv narxi</th>
-              <th>Amallar</th>
+              <th>Код</th>
+              <th>Номи</th>
+              <th>Ўлчами</th>
+              <th>Бирлик ҳажм</th>
+              <th>Жами ҳажм (м³)</th>
+              <th>Миқдор</th>
+              <th>Таннархи</th>
+              <th>Сотув нархи</th>
+              <th>Амаллар</th>
             </tr>
           </thead>
           <tbody>
             {filtered.length === 0 ? (
-              <tr><td colSpan="9" className="empty-row">Mahsulot topilmadi</td></tr>
-            ) : filtered.map(p => (
-              <tr key={p.id}>
+              <tr><td colSpan="9" className="empty-row">Маҳсулот топилмади</td></tr>
+            ) : filtered.map((p, index) => (
+              <tr key={p.id || `prod-${index}`}>
                 <td><span className="code-badge">{p.code}</span></td>
                 <td><strong>{p.name}</strong></td>
                 <td>{p.dimensions}</td>
@@ -178,13 +191,13 @@ export default function Products() {
                 <td>{Math.round(p.quantity)} {p.unit}</td>
                 <td>
                   <div className="price-cell">
-                    <span>{(p.cost_price_dollar * usdRate).toLocaleString()} so'm</span>
+                    <span>{(p.cost_price_dollar * usdRate).toLocaleString()} сўм</span>
                     <span className="usd-price">${p.cost_price_dollar}</span>
                   </div>
                 </td>
                 <td>
                   <div className="price-cell">
-                    <span className="sale-price">{(p.sale_price_dollar * usdRate).toLocaleString()} so'm</span>
+                    <span className="sale-price">{(p.sale_price_dollar * usdRate).toLocaleString()} сўм</span>
                     <span className="usd-price">${p.sale_price_dollar}</span>
                   </div>
                 </td>
@@ -205,51 +218,58 @@ export default function Products() {
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal-card" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>{editingId ? "✏️ Mahsulotni tahrirlash" : "➕ Yangi mahsulot"}</h2>
+              <h2>{editingId ? "✏️ Маҳсулотни таҳрирлаш" : "➕ Янги маҳсулот"}</h2>
               <button className="modal-close" onClick={() => setShowModal(false)}>✕</button>
             </div>
             <form onSubmit={handleSubmit} className="product-form">
               <div className="form-row">
                 <div className="form-group">
-                  <label>Kod *</label>
-                  <input name="code" value={form.code} onChange={handleInput} placeholder="Masalan: P001" required disabled={!!editingId} />
+                  <label>Код *</label>
+                  <input name="code" value={form.code} onChange={handleInput} placeholder="Масалан: P001" required disabled={!!editingId} />
                 </div>
                 <div className="form-group">
-                  <label>Turi</label>
+                  <label>Тури</label>
                   <select name="unit" value={form.unit} onChange={handleInput}>
-                    <option value="dona">Dona</option>
-                    <option value="pachka">Pachka</option>
+                    <option value="dona">Дона</option>
+                    <option value="pachka">Пачка</option>
                   </select>
                 </div>
               </div>
               <div className="form-group">
-                <label>Nomi *</label>
-                <input name="name" value={form.name} onChange={handleInput} placeholder="Masalan: Pol taxta" required />
+                <label>Номи *</label>
+                <input name="name" value={form.name} onChange={handleInput} placeholder="Масалан: Пол тахта" required />
               </div>
               <div className="form-group">
-                <label>O'lchami (uzunlik * kenglik * qalinlik) *</label>
-                <input name="dimensions" value={form.dimensions} onChange={handleInput} placeholder="Masalan: 300*15*3" required />
-                <small>Santimetrda kiriting (masalan: 300*15*3)</small>
+                <label>Ўлчами (узунлик * кенглик * қалинлик) *</label>
+                <input name="dimensions" value={form.dimensions} onChange={handleInput} placeholder="Масалан: 300*15*3" required />
+                <small>Сантиметрда киритинг (масалан: 300*15*3)</small>
               </div>
               <div className="form-row">
                 <div className="form-group">
-                  <label>Miqdor *</label>
+                  <label>Ҳозирги миқдор (Жами) *</label>
                   <input name="quantity" type="number" step="any" value={form.quantity} onChange={handleInput} placeholder="0" required />
                 </div>
+                {editingId && (
+                  <div className="form-group highlight">
+                    <label>Миқдор қўшиш (+)</label>
+                    <input name="addQty" type="number" step="any" value={form.addQty} onChange={handleAddQtyChange} placeholder="Масалан: 100" />
+                    <small>Янги келган товар сонини киритинг</small>
+                  </div>
+                )}
               </div>
               <div className="form-row">
                 <div className="form-group">
-                  <label>Tannarxi (dollar) *</label>
+                  <label>Таннархи (доллар) *</label>
                   <input name="cost_price_dollar" type="number" step="any" value={form.cost_price_dollar} onChange={handleInput} placeholder="0.00" required />
                 </div>
                 <div className="form-group">
-                  <label>Sotuv narxi (dollar) *</label>
+                  <label>Сотув нархи (доллар) *</label>
                   <input name="sale_price_dollar" type="number" step="any" value={form.sale_price_dollar} onChange={handleInput} placeholder="0.00" required />
                 </div>
               </div>
               <div className="form-actions">
-                <button type="button" className="btn-secondary" onClick={() => setShowModal(false)}>Bekor qilish</button>
-                <button type="submit" className="btn-primary">{editingId ? 'Saqlash' : "Qo'shish"}</button>
+                <button type="button" className="btn-secondary" onClick={() => setShowModal(false)}>Бекор қилиш</button>
+                <button type="submit" className="btn-primary">{editingId ? 'Сақлаш' : "Қўшиш"}</button>
               </div>
             </form>
           </div>

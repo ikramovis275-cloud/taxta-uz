@@ -60,7 +60,7 @@ export default function NewSale() {
     const qty = parseFloat(newQty);
     if (isNaN(qty) || qty < 0) return;
     const product = products.find(p => p.id === item.product_id);
-    if (qty > product.quantity) return alert(`Omborda faqat ${Math.round(product.quantity)} ta bor!`);
+    if (qty > product.quantity) return alert(`Омборда фақат ${Math.round(product.quantity)} та бор!`);
     updateCartItem(item.product_id, qty);
   };
 
@@ -75,14 +75,14 @@ export default function NewSale() {
   };
 
   const handleCompleteSale = async () => {
-    if (!clientName.trim()) return alert("Klient ismini kiriting!");
-    if (cart.length === 0) return alert("Savat bo'sh!");
+    if (!clientName.trim()) return alert("Клиент исмини киритинг!");
+    if (cart.length === 0) return alert("Сават бўш!");
     // Barcha miqdorlar kiritilganligini tekshirish
     const emptyQty = cart.find(item => !item.qty || parseFloat(item.qty) <= 0);
-    if (emptyQty) return alert(`"${emptyQty.product_name}" uchun miqdor kiriting!`);
+    if (emptyQty) return alert(`"${emptyQty.product_name}" учун миқдор киритинг!`);
     
     const emptyPrice = cart.find(item => item.price_per_unit_sum === '' || parseFloat(item.price_per_unit_sum) < 0);
-    if (emptyPrice) return alert(`"${emptyPrice.product_name}" uchun narx kiriting!`);
+    if (emptyPrice) return alert(`"${emptyPrice.product_name}" учун нарх киритинг!`);
     setCompleting(true);
     try {
       const items = cart.map(item => ({
@@ -109,7 +109,7 @@ export default function NewSale() {
       setPaidSum('');
       fetchData();
     } catch (err) {
-      alert(err.response?.data?.error || 'Xatolik yuz berdi');
+      alert(err.response?.data?.error || 'Хатолик юз берди');
     } finally {
       setCompleting(false);
     }
@@ -129,23 +129,23 @@ export default function NewSale() {
       <div className="receipt-page">
         <div className="receipt-card" ref={receiptRef}>
           <div className="receipt-header">
-            <div className="receipt-logo">🪵 Taxta CRM</div>
-            <h2>Sotuv cheki</h2>
+            <div className="receipt-logo">🪵 Тахта CRM</div>
+            <h2>Сотув чеки</h2>
             <p className="receipt-date">{new Date().toLocaleString('uz-UZ')}</p>
           </div>
           <div className="receipt-client">
-            <span>Klient:</span>
+            <span>Клиент:</span>
             <strong>{receipt.client_name}</strong>
           </div>
           <div className="receipt-divider"></div>
           <table className="receipt-table">
             <thead>
               <tr>
-                <th>Mahsulot</th>
-                <th>Miqdor</th>
-                <th>Hajm (m³)</th>
-                <th>Narx</th>
-                <th>Jami</th>
+                <th>Маҳсулот</th>
+                <th>Миқдор</th>
+                <th>Ҳажм (м³)</th>
+                <th>Нарх</th>
+                <th>Жами</th>
               </tr>
             </thead>
             <tbody>
@@ -166,36 +166,36 @@ export default function NewSale() {
           <div className="receipt-divider"></div>
           <div className="receipt-total">
             <div className="total-row">
-              <span>Jami (so'm):</span>
-              <strong className="total-sum">{Math.round(totalSum).toLocaleString()} so'm</strong>
+              <span>Жами (сўм):</span>
+              <strong className="total-sum">{Math.round(totalSum).toLocaleString()} сўм</strong>
             </div>
             {receipt.debt_sum > 0 && (
               <div className="total-row debt" style={{ color: '#ef4444' }}>
-                <span>Qarz (so'm):</span>
-                <strong>{Math.round(receipt.debt_sum).toLocaleString()} so'm</strong>
+                <span>Қарз (сўм):</span>
+                <strong>{Math.round(receipt.debt_sum).toLocaleString()} сўм</strong>
               </div>
             )}
             <div className="total-row secondary">
-              <span>To'landi:</span>
-              <span>{Math.round(receipt.paid_sum).toLocaleString()} so'm</span>
+              <span>Тўланди:</span>
+              <span>{Math.round(receipt.paid_sum).toLocaleString()} сўм</span>
             </div>
             <div className="total-row secondary">
-              <span>Jami ($):</span>
+              <span>Жами ($):</span>
               <span>${(totalSum / usdRate).toFixed(2)}</span>
             </div>
             <div className="total-row secondary">
-              <span>Dollar kursi:</span>
-              <span>{usdRate.toLocaleString()} so'm</span>
+              <span>Доллар курси:</span>
+              <span>{usdRate.toLocaleString()} сўм</span>
             </div>
           </div>
           <div className="receipt-footer">
-            <p>Xarid uchun rahmat! 🌟</p>
+            <p>Харид учун раҳмат! 🌟</p>
           </div>
         </div>
         <div className="receipt-actions no-print">
-          <button className="btn-secondary" onClick={() => setShowReceipt(null)}>← Yangi sotuv</button>
-          <button className="btn-primary" onClick={handlePrint}>🖨️ Chek chiqarish</button>
-          <button className="btn-secondary" onClick={() => navigate('/sales')}>📋 Tarixga o'tish</button>
+          <button className="btn-secondary" onClick={() => setShowReceipt(null)}>← Янги сотув</button>
+          <button className="btn-primary" onClick={handlePrint}>🖨️ Чек чиқариш</button>
+          <button className="btn-secondary" onClick={() => navigate('/sales')}>📋 Тарихга ўтиш</button>
         </div>
       </div>
     );
@@ -205,8 +205,8 @@ export default function NewSale() {
     <div className="new-sale-page">
       <div className="page-header">
         <div>
-          <h1>🛒 Yangi Sotuv</h1>
-          <p>Mahsulot tanlang va klientga chek bering</p>
+          <h1>🛒 Янги Сотув</h1>
+          <p>Маҳсулот танланг ва клиентга чек беринг</p>
         </div>
       </div>
 
@@ -214,12 +214,12 @@ export default function NewSale() {
         {/* LEFT: Products */}
         <div className="products-panel">
           <div className="panel-header">
-            <h3>📦 Mahsulotlar ({filteredProducts.length})</h3>
+            <h3>📦 Маҳсулотлар ({filteredProducts.length})</h3>
             <div className="search-wrapper">
               <span>🔍</span>
               <input
                 type="text"
-                placeholder="Qidirish..."
+                placeholder="Қидириш..."
                 value={search}
                 onChange={e => setSearch(e.target.value)}
               />
@@ -227,14 +227,14 @@ export default function NewSale() {
           </div>
           <div className="products-grid">
             {filteredProducts.length === 0 ? (
-              <div className="empty-products">Mahsulot topilmadi</div>
+              <div className="empty-products">Маҳсулот топилмади</div>
             ) : filteredProducts.map(p => {
               const inCart = cart.find(c => c.product_id === p.id);
               return (
                 <div key={p.id} className={`product-card ${inCart ? 'in-cart' : ''}`}>
                   <div className="product-card-top">
                     <span className="product-code">{p.code}</span>
-                    {inCart && <span className="in-cart-badge">✓ Savatda</span>}
+                    {inCart && <span className="in-cart-badge">✓ Саватда</span>}
                   </div>
                   <h4 className="product-card-name">{p.name}</h4>
                   <div className="product-card-info">
@@ -242,14 +242,14 @@ export default function NewSale() {
                     <span>📦 {Math.round(p.quantity)} {p.unit}</span>
                   </div>
                   <div className="product-card-price">
-                    {(p.sale_price_dollar * usdRate).toLocaleString()} so'm
+                    {(p.sale_price_dollar * usdRate).toLocaleString()} сўм
                     <span className="usd-price-small">${p.sale_price_dollar}</span>
                   </div>
                   <button
                     className="btn-add-cart"
                     onClick={() => handleAddToCart(p)}
                   >
-                    {inCart ? '+ Yana qo\'shish' : "🛒 Savatga"}
+                    {inCart ? '+ Яна қўшиш' : "🛒 Саватга"}
                   </button>
                 </div>
               );
@@ -260,24 +260,24 @@ export default function NewSale() {
         {/* RIGHT: Cart */}
         <div className="cart-panel">
           <div className="cart-header">
-            <h3>🧾 Savat</h3>
+            <h3>🧾 Сават</h3>
             {cart.length > 0 && (
-              <button className="btn-clear-cart" onClick={clearCart}>🗑️ Tozalash</button>
+              <button className="btn-clear-cart" onClick={clearCart}>🗑️ Тозалаш</button>
             )}
           </div>
 
           <div className="client-inputs">
             <div className="client-input-wrapper">
-              <label>👤 Klient ismi *</label>
+              <label>👤 Клиент исми *</label>
               <input
                 type="text"
-                placeholder="Ismini kiriting..."
+                placeholder="Исмини киритинг..."
                 value={clientName}
                 onChange={e => setClientName(e.target.value)}
               />
             </div>
             <div className="client-input-wrapper">
-              <label>📞 Telefon raqami</label>
+              <label>📞 Телефон рақами</label>
               <input
                 type="text"
                 placeholder="+998 90 123 45 67"
@@ -290,8 +290,8 @@ export default function NewSale() {
           {cart.length === 0 ? (
             <div className="cart-empty">
               <span className="cart-empty-icon">🛒</span>
-              <p>Savat bo'sh</p>
-              <small>Mahsulotni bosing va savatga qo'shing</small>
+              <p>Сават бўш</p>
+              <small>Маҳсулотни босинг ва саватга қўшинг</small>
             </div>
           ) : (
             <>
@@ -310,29 +310,29 @@ export default function NewSale() {
                     </div>
                     <div className="cart-item-controls">
                       <div className="control-group">
-                        <label>Miqdor ({item.unit})</label>
+                        <label>Миқдор ({item.unit})</label>
                         <input
                           type="number"
                           step="any"
                           min="0"
                           value={item.qty}
-                          placeholder="Son kiriting"
+                          placeholder="Сон киритинг"
                           onChange={e => handleQtyChange(item, e.target.value)}
                         />
                       </div>
                       <div className="control-group">
-                        <label>Narx (so'm)</label>
+                        <label>Нарх (сўм)</label>
                         <input
                           type="number"
                           step="any"
                           value={item.price_per_unit_sum}
-                          placeholder="Narxni kiriting"
+                          placeholder="Нархни киритинг"
                           onChange={e => handlePriceChange(item, e.target.value)}
                         />
                       </div>
                     </div>
                     <div className="cart-item-total">
-                      Jami: <strong>{Math.round(item.total_sum).toLocaleString()} so'm</strong>
+                      Жами: <strong>{Math.round(item.total_sum).toLocaleString()} сўм</strong>
                     </div>
                   </div>
                 ))}
@@ -340,15 +340,15 @@ export default function NewSale() {
 
                 <div className="cart-summary">
                   <div className="cart-total-row">
-                    <span>Jami (so'm):</span>
-                    <strong className="cart-total-sum">{Math.round(cartTotal).toLocaleString()} so'm</strong>
+                    <span>Жами (сўм):</span>
+                    <strong className="cart-total-sum">{Math.round(cartTotal).toLocaleString()} сўм</strong>
                   </div>
                   
                   <div className="payment-input-area" style={{ marginTop: '1rem', borderTop: '1px solid var(--border)', paddingTop: '1rem' }}>
-                    <label style={{ display: 'block', fontSize: '0.82rem', marginBottom: '0.5rem' }}>💰 To'langan summa (so'm)</label>
+                    <label style={{ display: 'block', fontSize: '0.82rem', marginBottom: '0.5rem' }}>💰 Тўланган сумма (сўм)</label>
                     <input
                       type="number"
-                      placeholder={`To'liq to'lansa: ${Math.round(cartTotal).toLocaleString()}`}
+                      placeholder={`Тўлиқ тўланса: ${Math.round(cartTotal).toLocaleString()}`}
                       value={paidSum}
                       onChange={e => setPaidSum(e.target.value)}
                       style={{ 
@@ -362,13 +362,13 @@ export default function NewSale() {
                     />
                     {paidSum !== '' && parseFloat(paidSum) < cartTotal && (
                       <div className="debt-indicator" style={{ color: '#f87171', fontSize: '0.85rem', marginTop: '0.5rem' }}>
-                        🔴 Qarz: <strong>{(cartTotal - (parseFloat(paidSum) || 0)).toLocaleString()} so'm</strong>
+                        🔴 Қарз: <strong>{(cartTotal - (parseFloat(paidSum) || 0)).toLocaleString()} сўм</strong>
                       </div>
                     )}
                   </div>
                   
                   <div className="cart-total-row secondary" style={{ marginTop: '1rem' }}>
-                    <span>Jami ($):</span>
+                    <span>Жами ($):</span>
                     <span>${(cartTotal / usdRate).toFixed(2)}</span>
                   </div>
                 </div>
@@ -378,7 +378,7 @@ export default function NewSale() {
                 onClick={handleCompleteSale}
                 disabled={completing}
               >
-                {completing ? '⏳ Yakunlanmoqda...' : '✅ Sotuvni yakunlash'}
+                {completing ? '⏳ Якунланмоқда...' : '✅ Сотувни якунлаш'}
               </button>
             </>
           )}

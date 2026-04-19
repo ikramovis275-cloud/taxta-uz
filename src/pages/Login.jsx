@@ -36,18 +36,18 @@ export default function Login() {
       <div className="login-card">
         <div className="login-logo">
           <span className="login-icon">🪵</span>
-          <h1>Taxta CRM</h1>
-          <p>Yog'och savdosi boshqaruv tizimi</p>
+          <h1>Тахта CRM</h1>
+          <p>Ёғоч савдоси бошқарув тизими</p>
         </div>
 
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
-            <label>Login</label>
+            <label>Логин</label>
             <div className="input-wrapper">
               <span className="input-icon">👤</span>
               <input
                 type="text"
-                placeholder="Login kiriting"
+                placeholder="Логин киритинг"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -57,12 +57,12 @@ export default function Login() {
           </div>
 
           <div className="form-group">
-            <label>Parol</label>
+            <label>Парол</label>
             <div className="input-wrapper">
               <span className="input-icon">🔒</span>
               <input
                 type="password"
-                placeholder="Parol kiriting"
+                placeholder="Парол киритинг"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -73,12 +73,12 @@ export default function Login() {
           {error && <div className="login-error">⚠️ {error}</div>}
 
           <button type="submit" className="login-btn" disabled={loading}>
-            {loading ? <><span className="btn-spinner"></span> Kirilmoqda...</> : 'Kirish →'}
+            {loading ? <><span className="btn-spinner"></span> Кирилинмоқда...</> : 'Кириш →'}
           </button>
         </form>
 
         <div className="login-footer">
-          <p>© 2024 Taxta CRM • Barcha huquqlar himoyalangan</p>
+          <p>© 2024 Тахта CRM • Барча ҳуқуқлар ҳимояланган</p>
         </div>
       </div>
     </div>

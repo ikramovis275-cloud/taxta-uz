@@ -16,12 +16,12 @@ export default function Layout() {
   };
 
   const navItems = [
-    { to: '/dashboard', icon: '📊', label: 'Kunlik reyting' },
-    { to: '/products', icon: '📦', label: 'Mahsulotlar' },
-    { to: '/new-sale', icon: '🛒', label: `Sotuv${cart.length > 0 ? ` (${cart.length})` : ''}` },
-    { to: '/sales', icon: '📋', label: "Sotuvlar tarixi" },
-    { to: '/debtors', icon: '🔴', label: "Qarzdorlar" },
-    { to: '/reports', icon: '📈', label: 'Hisobotlar' },
+    { to: '/dashboard', icon: '📊', label: 'Кунлик рейтинг' },
+    { to: '/products', icon: '📦', label: 'Маҳсулотлар' },
+    { to: '/new-sale', icon: '🛒', label: `Сотув${cart.length > 0 ? ` (${cart.length})` : ''}` },
+    { to: '/sales', icon: '📋', label: "Сотувлар тарихи" },
+    { to: '/debtors', icon: '🔴', label: "Қарздорлар" },
+    { to: '/reports', icon: '📈', label: 'Ҳисоботлар' },
   ];
 
 
@@ -31,7 +31,7 @@ export default function Layout() {
         <div className="sidebar-header">
           <div className="logo">
             <span className="logo-icon">🪵</span>
-            {sidebarOpen && <span className="logo-text">Taxta CRM</span>}
+            {sidebarOpen && <span className="logo-text">Тахта CRM</span>}
           </div>
           <button className="toggle-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
             {sidebarOpen ? '◀' : '▶'}
@@ -61,9 +61,9 @@ export default function Layout() {
               </div>
             )}
           </div>
-          <button className="logout-btn" onClick={handleLogout} title="Chiqish">
+          <button className="logout-btn" onClick={handleLogout} title="Чиқиш">
             <span>🚪</span>
-            {sidebarOpen && <span>Chiqish</span>}
+            {sidebarOpen && <span>Чиқиш</span>}
           </button>
         </div>
       </aside>

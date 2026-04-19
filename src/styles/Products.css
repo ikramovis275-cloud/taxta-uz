@@ -26,3 +26,25 @@
 }
 
 .product-form { display: flex; flex-direction: column; }
+
+.form-group.highlight {
+  background: rgba(79, 70, 229, 0.05);
+  border: 1px dashed var(--accent);
+  padding: 0.8rem;
+  border-radius: 8px;
+}
+
+.form-group.highlight label {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.form-group.highlight input {
+  border-color: var(--accent);
+  background: white;
+}
+
+.form-group.highlight small {
+  color: var(--accent);
+  opacity: 0.8;
+}

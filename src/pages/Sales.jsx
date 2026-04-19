@@ -39,17 +39,17 @@ export default function Sales() {
         return_qty: qty,
         return_volume: vol
       });
-      alert("Mahsulot qaytarildi va omborga qo'shildi!");
+      alert("Маҳсулот қайтарилди ва омборга қўшилди!");
       setReturnItem(null);
       setReturnQty('');
       fetchAll();
     } catch (err) {
-      alert("Xatolik: " + (err.response?.data?.error || err.message));
+      alert("Хатолик: " + (err.response?.data?.error || err.message));
     }
   };
 
   const handleDelete = async (id) => {
-    if (!confirm("Bu sotuvni o'chirishga ishonchingiz komilmi?")) return;
+    if (!confirm("Бу сотувни ўчиришга ишончингиз комилми?")) return;
     await api.delete(`/sales/${id}`);
     fetchAll();
   };
@@ -75,20 +75,20 @@ export default function Sales() {
   // EXPORT logic (must be after grouped is defined)
   const exportToExcel = () => {
     const groupEntries = Object.entries(grouped);
-    if (groupEntries.length === 0) return alert("Hisobot uchun ma'lumot yo'q!");
+    if (groupEntries.length === 0) return alert("Ҳисобот учун маълумот йўқ!");
 
     let tableHtml = `
       <table border="1">
         <tr style="background-color: #4f46e5; color: #ffffff; font-weight: bold;">
-          <th>Sana</th>
-          <th>Klient</th>
-          <th>Telefon</th>
-          <th>Mahsulot</th>
-          <th>Miqdor</th>
-          <th>Hajm (m3)</th>
-          <th>Jami (som)</th>
-          <th>Tolanidi</th>
-          <th>Qarz</th>
+          <th>Сана</th>
+          <th>Клиент</th>
+          <th>Телефон</th>
+          <th>Маҳсулот</th>
+          <th>Миқдор</th>
+          <th>Ҳажм (м3)</th>
+          <th>Жами (сўм)</th>
+          <th>Тўланди</th>
+          <th>Қарз</th>
         </tr>
     `;
 
@@ -142,32 +142,32 @@ export default function Sales() {
     URL.revokeObjectURL(url);
   };
 
-  if (loading) return <div className="page-loading"><div className="spinner"></div><p>Yuklanmoqda...</p></div>;
+  if (loading) return <div className="page-loading"><div className="spinner"></div><p>Юкланмоқда...</p></div>;
 
   return (
     <div className="sales-page">
       <div className="page-header">
         <div>
-          <h1>📋 Sotuvlar tarixi</h1>
-          <p>Barcha savdo operatsiyalarining ro'yxati</p>
+          <h1>📋 Сотувлар тарихи</h1>
+          <p>Барча савдо операцияларининг рўйхати</p>
         </div>
         <button className="btn-primary" onClick={exportToExcel}>
-          📥 Excelga yuklash
+          📥 Excel’га юклаш
         </button>
       </div>
 
       <div className="sales-summary-bar">
-        <div className="summary-chip">🛒 Jami sotuvlar: <strong>{sales.length} ta</strong></div>
-        <div className="summary-chip">💰 Kassa (Naqd pul): <strong style={{color: 'var(--accent2)'}}>{Math.round(totalPaid).toLocaleString()} so'm</strong></div>
-        <div className="summary-chip">🔴 Jami qarz: <strong style={{color: 'var(--danger)'}}>{Math.round(totalDebtBalance).toLocaleString()} so'm</strong></div>
-        <div className="summary-chip">💵 Dollar: <strong>${(totalPaid / usdRate).toFixed(2)}</strong></div>
+        <div className="summary-chip">🛒 Жами сотувлар: <strong>{sales.length} та</strong></div>
+        <div className="summary-chip">💰 Касса (Нақд пул): <strong style={{color: 'var(--accent2)'}}>{Math.round(totalPaid).toLocaleString()} сўм</strong></div>
+        <div className="summary-chip">🔴 Жами қарз: <strong style={{color: 'var(--danger)'}}>{Math.round(totalDebtBalance).toLocaleString()} сўм</strong></div>
+        <div className="summary-chip">💵 Доллар: <strong>${(totalPaid / usdRate).toFixed(2)}</strong></div>
       </div>
 
       <div className="search-wrapper" style={{marginBottom: '1.5rem'}}>
         <span>🔍</span>
         <input
           type="text"
-          placeholder="Klient ismi yoki mahsulot bo'yicha qidirish..."
+          placeholder="Клиент исми ёки маҳсулот бўйича қидириш..."
           value={search}
           onChange={e => setSearch(e.target.value)}
         />
@@ -176,7 +176,7 @@ export default function Sales() {
       {Object.keys(grouped).length === 0 ? (
         <div className="empty-state">
           <span>📋</span>
-          <p>Hech qanday sotuv topilmadi</p>
+          <p>Ҳеч қандай сотув топилмади</p>
         </div>
       ) : (
         Object.entries(grouped).map(([date, group]) => (
@@ -184,8 +184,8 @@ export default function Sales() {
             <div className="day-header">
               <span className="day-date">📅 {date}</span>
               <span className="day-total">
-                {group.sales.length} ta sotuv • 
-                {Math.round(group.total).toLocaleString()} so'm
+                {group.sales.length} та сотув • 
+                {Math.round(group.total).toLocaleString()} сўм
               </span>
             </div>
 
@@ -204,13 +204,13 @@ export default function Sales() {
                   </div>
                   <div className="sale-payment-status">
                     {sale.debt_sum > 0 ? (
-                      <div className="debt-tag">🔴 Qarz: {Math.round(sale.debt_sum).toLocaleString()} so'm</div>
+                      <div className="debt-tag">🔴 Қарз: {Math.round(sale.debt_sum).toLocaleString()} сўм</div>
                     ) : (
-                      <div className="paid-tag">✅ To'landi</div>
+                      <div className="paid-tag">✅ Тўланди</div>
                     )}
                   </div>
                   <div className="sale-amount">
-                    <strong>{Math.round(sale.total_sum).toLocaleString()} so'm</strong>
+                    <strong>{Math.round(sale.total_sum).toLocaleString()} сўм</strong>
                     <span className="usd-price">${(sale.total_sum / usdRate).toFixed(2)}</span>
                   </div>
                   <div className="sale-actions">
@@ -224,11 +224,11 @@ export default function Sales() {
                     <table className="receipt-table-mini">
                       <thead>
                         <tr>
-                          <th>Mahsulot</th>
-                          <th>Miqdor</th>
-                          <th>Hajm (m³)</th>
-                          <th>Jami (so'm)</th>
-                          <th>Amal</th>
+                          <th>Маҳсулот</th>
+                          <th>Миқдор</th>
+                          <th>Ҳажм (м³)</th>
+                          <th>Жами (сўм)</th>
+                          <th>Амал</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -248,7 +248,7 @@ export default function Sales() {
                                   setReturnQty(item.qty);
                                 }}
                               >
-                                🔄 Qaytarish
+                                🔄 Қайтариш
                               </button>
                             </td>
                           </tr>
@@ -266,16 +266,16 @@ export default function Sales() {
         <div className="modal-overlay" onClick={() => setReturnItem(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>🔄 Mahsulotni qaytarish</h2>
+              <h2>🔄 Маҳсулотни қайтариш</h2>
               <button className="close-btn" onClick={() => setReturnItem(null)}>×</button>
             </div>
             <form onSubmit={handleReturnSubmit}>
               <div className="sale-mini-info">
-                <p>📦 Mahsulot: <strong>{returnItem.product_name}</strong></p>
-                <p>🔢 Sotilgan: <strong>{returnItem.qty} {returnItem.unit}</strong></p>
+                <p>📦 Маҳсулот: <strong>{returnItem.product_name}</strong></p>
+                <p>🔢 Сотилган: <strong>{returnItem.qty} {returnItem.unit}</strong></p>
               </div>
               <div className="form-group">
-                <label>Qancha qaytariladi? ({returnItem.unit})</label>
+                <label>Қанча қайтарилади? ({returnItem.unit})</label>
                 <input 
                   type="number" 
                   step="any"
@@ -287,9 +287,9 @@ export default function Sales() {
                 />
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn-cancel" onClick={() => setReturnItem(null)}>Bekor qilish</button>
+                <button type="button" className="btn-cancel" onClick={() => setReturnItem(null)}>Бекор қилиш</button>
                 <button type="submit" className="btn-submit" style={{background: 'linear-gradient(135deg, #f59e0b, #d97706)'}}>
-                  🔄 Qaytarishni tasdiqlash
+                  🔄 Қайтаришни тасдиқлаш
                 </button>
               </div>
             </form>
