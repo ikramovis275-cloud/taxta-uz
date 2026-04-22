@@ -54,7 +54,6 @@ export default function Dashboard() {
     { label: "Жами маҳсулотлар", value: stats?.totalProducts || 0, icon: '📦', color: 'blue', suffix: 'та' },
     { label: "Жами сотувлар", value: stats?.totalSales || 0, icon: '🛒', color: 'green', suffix: 'та' },
     { label: "Омбор ҳажми", value: (stats?.totalVolume || 0).toFixed(2), icon: '📐', color: 'purple', suffix: ' м³' },
-    { label: "Жами даромад", value: Math.round(stats?.totalRevenue || 0).toLocaleString(), icon: '💰', color: 'orange', suffix: " сўм" },
   ];
 
   return (
